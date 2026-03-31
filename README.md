@@ -1,37 +1,59 @@
-# StudyTogether
+# StudyQuest
 
-A collaborative study session web app where you share a link, friends join, and you all study together with shared music, synced timers, and a cozy hand-drawn notebook aesthetic.
+A social presence app for students — create your RPG character, see your friends online, check what they're listening to or working on, and poke them. Like Discord meets a cozy RPG, with a hand-drawn notebook aesthetic.
 
 ---
 
 ## Features
 
-### Core
-- **Room creation** — one click, get a shareable link (no signup required)
-- **Shared music queue** — anyone can add songs, upvote/downvote to reorder, now-playing synced for everyone (YouTube embed)
-- **Synced Pomodoro timer** — 25/5 or custom intervals, everyone sees the same countdown, visual focus/break transitions
-- **Presence** — see who's in the room with little doodle avatars
+### RPG Character Creator
+- **Build your character** — pick a class (Scholar, Night Owl, Crammer, Grinder), choose a doodle avatar, name your character
+- **Level up** — gain XP from study sessions, completing tasks, streaks
+- **Stats** — Focus, Stamina, Wisdom, Luck — go up as you study more
+- **Titles & badges** — "Library Dweller", "3am Warrior", "Pomodoro Master"
+- **Equipment** — cosmetic items for your avatar (hats, accessories, pets) unlocked through milestones
+- **Character card** — shareable sketchy card showing your character, stats, and current activity
+
+### Friends & Presence (Discord-style)
+- **Friends list** — add friends via username or invite link
+- **Online status** — see who's online, idle, studying, or offline (with hand-drawn status dots)
+- **Activity feed** — see what friends are up to in real-time:
+  - "Luna is listening to Tutti muoiono — Madame, BLANCO"
+  - "Kai is working on Chemistry Notes"
+  - "Mira has been studying for 2h 15m"
+  - "Jae just hit Level 12!"
+- **Custom status** — set your own with a doodle emoji ("grinding organic chem", "vibing", "do not disturb")
+
+### Poke System
+- **Poke friends** — tap to send a poke (like old Facebook / Discord)
+- **Poke types** — different doodle animations: nudge, wave, throw paper airplane, send coffee, flick eraser
+- **Poke back** — get notified, poke back with one tap
+- **Poke wars** — poke streak counter between two friends
+
+### Now Playing / Activity Sharing
+- **Share what you're listening to** — connect Spotify or paste YouTube link, shows on your profile like Discord
+- **Sketchy music player widget** — hand-drawn player UI on your profile (like the mockups)
+- **Share what you're working on** — manually set "working on: [subject]" or auto-detect from a timer
+- **Listen along** — tap a friend's now-playing to open the same song
+
+### Study Tools (Personal)
+- **Pomodoro timer** — personal timer with RPG-style rewards (XP on completion)
+- **Task list** — notebook-style to-do list, earn XP for checking things off
+- **Study log** — auto-tracked focus time, visualized as a hand-drawn chart
+- **Streaks** — daily study streak with a flame doodle counter
 
 ### Social
-- **Doodle chat** — text chat with sketchy speech-bubble style
-- **Reactions** — floating hand-drawn reaction doodles across the screen (pencil star, coffee cup, brain, zzz)
-- **Status** — "focusing", "on break", "brb", "vibing" shown under each avatar
-
-### Productivity
-- **Task list** — personal to-do list in a notebook-style lined area
-- **Focus stats** — track pomodoro cycles completed, hand-drawn bar chart
-- **Session history** — "you studied 2h 15m today" with a sketchy progress ring
-
-### Vibes
-- **Ambient sounds mixer** — rain, coffee shop, fireplace, lo-fi static with sliders to mix
-- **Room themes** — "Notebook", "Graph Paper", "Chalkboard", "Sticky Notes" — each changes background texture and color palette
-- **Background doodles** — subtle animated doodles floating in the background (stars, clouds, music notes)
+- **Quick reactions** — send doodle reactions to friends' activities (fire, brain, zzz, coffee, star)
+- **Achievements feed** — see when friends level up, hit streaks, unlock badges
+- **Study groups** — create a group, see all members' presence in one view
+- **Leaderboard** — opt-in weekly XP leaderboard among friends
 
 ### Nice-to-haves
-- **Sticky notes** — drag around the screen, shared or personal
-- **Music history** — scroll back through played tracks
-- **Shared doodle canvas** — draw together during breaks
-- **Room leaderboard** — opt-in gamified focus stats with hand-drawn trophy doodles
+- **Pet companion** — a doodle pet that sits on your profile, reacts to your study habits
+- **Daily quests** — "Study for 1 hour", "Complete 3 pomodoros", "Poke 2 friends"
+- **Ambient mode** — personal ambient sound mixer (rain, coffee shop, lo-fi)
+- **Profile themes** — "Notebook", "Graph Paper", "Chalkboard", "Sticky Notes"
+- **Shareable stats card** — export a sketchy image of your weekly stats for socials
 
 ---
 
@@ -39,53 +61,97 @@ A collaborative study session web app where you share a link, friends join, and 
 
 | Layer | Choice | Why |
 |-------|--------|-----|
-| **Framework** | Next.js 14+ (App Router) | SSR for landing page, client components for room UI, API routes |
-| **Language** | TypeScript | Type safety across client and server, especially for real-time message schemas |
-| **Real-time** | PartyKit | Each room = one "party" with persistent state. Handles WebSockets, reconnection, edge deployment. No server infra to manage |
-| **Sketchy UI** | Rough.js + custom React components | Hand-drawn borders, wobbly shapes. Thin component library wrapping Rough.js SVG rendering |
-| **Styling** | Tailwind CSS + CSS custom properties | Tailwind for layout, CSS variables for theme switching |
+| **Framework** | Next.js 14+ (App Router) | SSR for profiles, client components for real-time UI |
+| **Language** | TypeScript | Type safety for real-time events and API |
+| **Real-time** | PartyKit | Presence system — each user is connected, broadcasts status updates to friends. Edge-deployed, handles reconnection |
+| **Auth** | NextAuth.js (Auth.js) | Friend system requires accounts. GitHub/Google/Discord OAuth |
+| **Database** | Supabase (Postgres) | User profiles, friends list, character data, study logs, achievements |
+| **Sketchy UI** | Rough.js + custom React components | Hand-drawn borders, wobbly shapes |
+| **Styling** | Tailwind CSS | Layout + theme switching via CSS variables |
 | **Fonts** | Caveat / Patrick Hand (Google Fonts) | Handwriting-style typography |
-| **Music** | YouTube IFrame API | Free, no API key needed for playback, leader-based sync |
-| **Ambient Audio** | Howler.js | Robust layered audio with individual volume control |
-| **State** | Zustand | Lightweight client state management |
-| **Persistence** | localStorage + PartyKit Durable Storage | User prefs in localStorage, room state in PartyKit storage |
-| **Animations** | Framer Motion | Smooth transitions, floating reactions, page-flip effects |
-| **Deploy** | Vercel (Next.js) + PartyKit (Cloudflare edge) | Both have free tiers |
+| **Music** | Spotify Web API + YouTube oEmbed | Pull now-playing data from Spotify, or manual YouTube link |
+| **State** | Zustand | Client-side state for presence, UI |
+| **Animations** | Framer Motion | Poke animations, floating reactions, transitions |
+| **Deploy** | Vercel + PartyKit (Cloudflare) | Both free tier friendly |
 
 ---
 
 ## Architecture
 
 ```
-[Browser A]          [Browser B]          [Browser C]
-      |                    |                    |
-      |--- PartySocket ----|--- PartySocket ----|
-      |                    |                    |
-      v                    v                    v
-+-----------------------------------------------------------+
-|               PartyKit Server (per room)                  |
-|                                                           |
-|  Room State:                                              |
-|  - participants[]    - timer { duration, remaining }      |
-|  - musicQueue[]      - currentTrack                       |
-|  - chatMessages[]    - roomSettings                       |
-|                                                           |
-|  Events:                                                  |
-|  timer:start/pause/reset    queue:add/vote/skip           |
-|  chat:message/reaction      room:join/leave/settings      |
-|  sync:state (full broadcast to new joiners)               |
-+-----------------------------------------------------------+
-            |
-   [PartyKit Durable Storage]
+[User A Browser]        [User B Browser]        [User C Browser]
+      |                       |                       |
+      |---- PartySocket ------|---- PartySocket ------|
+      |                       |                       |
+      v                       v                       v
++--------------------------------------------------------------+
+|                  PartyKit Presence Server                     |
+|                                                              |
+|  Connected Users Map:                                        |
+|  - userId → { status, activity, nowPlaying, character }      |
+|                                                              |
+|  Events:                                                     |
+|  presence:update    poke:send           activity:change       |
+|  friend:online      friend:offline      reaction:send        |
+|  sync:friends (send friend statuses to newly connected user) |
++--------------------------------------------------------------+
 
++---------------------------+         +------------------+
+|     Vercel (Next.js)      |         |    Supabase      |
+|                           |         |    (Postgres)    |
+| /              Landing    |  <--->  |                  |
+| /dashboard     Main view  |         | users            |
+| /character     RPG setup  |         | characters       |
+| /profile/[id]  Profile    |         | friendships      |
+| /api/...       API routes |         | study_logs       |
++---------------------------+         | achievements     |
+                                      | pokes            |
+                                      +------------------+
+```
 
-+-------------------+
-| Vercel (Next.js)  |
-|                   |
-| /           Landing page
-| /room/[id]  Room page
-| /api/room   Create room
-+-------------------+
+---
+
+## Data Models
+
+```
+User
+├── id
+├── username
+├── email
+├── avatarUrl
+└── createdAt
+
+Character
+├── userId (FK)
+├── name
+├── class (Scholar | NightOwl | Crammer | Grinder)
+├── level
+├── xp
+├── stats { focus, stamina, wisdom, luck }
+├── title
+├── equipment[]
+└── theme
+
+Friendship
+├── userId
+├── friendId
+├── status (pending | accepted)
+└── pokeStreak
+
+StudyLog
+├── userId
+├── date
+├── focusMinutes
+├── pomodorosCompleted
+├── tasksCompleted
+└── xpEarned
+
+Achievement
+├── userId
+├── type (level_up | streak | milestone | badge)
+├── name
+├── unlockedAt
+└── metadata {}
 ```
 
 ---
@@ -101,65 +167,98 @@ study/
 ├── partykit.json
 │
 ├── public/
-│   ├── sounds/          # Ambient audio (rain, coffeeshop, fireplace, library)
-│   ├── textures/        # Paper/notebook backgrounds
-│   └── doodles/         # Hand-drawn SVG icons
+│   ├── sounds/              # Ambient audio files
+│   ├── textures/            # Paper/notebook backgrounds
+│   └── doodles/             # Hand-drawn SVG icons & avatars
+│       ├── avatars/         # RPG character base sprites
+│       ├── equipment/       # Hats, accessories, pets
+│       ├── pokes/           # Poke animation sprites
+│       └── icons/           # UI icons (status, reactions)
 │
-├── party/               # PartyKit server
-│   ├── index.ts         # Main room logic
-│   ├── timer.ts         # Timer state machine
-│   ├── queue.ts         # Music queue logic
-│   └── types.ts         # Shared message & state types
+├── party/                   # PartyKit server
+│   ├── index.ts             # Presence server (online status, activity broadcasting)
+│   └── types.ts             # Shared event types
 │
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx
-│   │   ├── page.tsx             # Landing page
+│   │   ├── page.tsx                 # Landing page
 │   │   ├── globals.css
-│   │   └── room/[id]/
-│   │       ├── page.tsx         # Room page
-│   │       └── loading.tsx
+│   │   ├── dashboard/
+│   │   │   └── page.tsx             # Main view (friends list + activity feed)
+│   │   ├── character/
+│   │   │   ├── create/page.tsx      # Character creator
+│   │   │   └── page.tsx             # View/edit your character
+│   │   ├── profile/[id]/
+│   │   │   └── page.tsx             # Friend's profile & character card
+│   │   └── api/
+│   │       ├── auth/[...nextauth]/  # Auth routes
+│   │       ├── friends/             # Friend requests, list
+│   │       ├── poke/                # Send pokes
+│   │       ├── character/           # Character CRUD
+│   │       └── study/               # Study logs, stats
 │   │
 │   ├── components/
-│   │   ├── sketchy/             # Sketchy UI primitives
+│   │   ├── sketchy/                 # Sketchy UI primitives
 │   │   │   ├── SketchBox.tsx
 │   │   │   ├── SketchButton.tsx
 │   │   │   ├── SketchInput.tsx
 │   │   │   ├── SketchCard.tsx
-│   │   │   ├── SketchSlider.tsx
-│   │   │   ├── SketchToggle.tsx
-│   │   │   └── SketchProgress.tsx
-│   │   ├── room/               # Room components
-│   │   ├── timer/              # Pomodoro timer
-│   │   ├── music/              # Music queue & player
-│   │   ├── chat/               # Chat & reactions
-│   │   ├── ambient/            # Ambient sounds
-│   │   ├── stats/              # Focus statistics
-│   │   └── landing/            # Landing page
+│   │   │   └── SketchAvatar.tsx
+│   │   ├── character/               # RPG character components
+│   │   │   ├── CharacterCreator.tsx
+│   │   │   ├── CharacterCard.tsx
+│   │   │   ├── StatsDisplay.tsx
+│   │   │   ├── ClassPicker.tsx
+│   │   │   ├── EquipmentSlots.tsx
+│   │   │   └── XPBar.tsx
+│   │   ├── friends/                 # Friends & presence
+│   │   │   ├── FriendsList.tsx
+│   │   │   ├── FriendCard.tsx
+│   │   │   ├── ActivityFeed.tsx
+│   │   │   ├── StatusIndicator.tsx
+│   │   │   └── AddFriendModal.tsx
+│   │   ├── poke/                    # Poke system
+│   │   │   ├── PokeButton.tsx
+│   │   │   ├── PokePicker.tsx       # Choose poke type
+│   │   │   ├── PokeAnimation.tsx
+│   │   │   └── PokeNotification.tsx
+│   │   ├── music/                   # Now playing
+│   │   │   ├── NowPlaying.tsx
+│   │   │   ├── MiniPlayer.tsx
+│   │   │   └── SpotifyConnect.tsx
+│   │   ├── study/                   # Personal study tools
+│   │   │   ├── PomodoroTimer.tsx
+│   │   │   ├── TaskList.tsx
+│   │   │   ├── StudyStats.tsx
+│   │   │   └── StreakCounter.tsx
+│   │   └── landing/
+│   │       └── Hero.tsx
 │   │
 │   ├── hooks/
-│   │   ├── usePartySocket.ts
-│   │   ├── useRoomState.ts
-│   │   ├── useTimer.ts
-│   │   ├── useQueue.ts
-│   │   ├── useAmbient.ts
-│   │   └── useStats.ts
+│   │   ├── usePartySocket.ts        # PartyKit connection
+│   │   ├── usePresence.ts           # Friends' online status
+│   │   ├── useCharacter.ts          # Character data
+│   │   ├── usePoke.ts               # Poke actions
+│   │   ├── useTimer.ts              # Pomodoro timer
+│   │   └── useNowPlaying.ts         # Music activity
 │   │
-│   ├── stores/                 # Zustand stores
-│   │   ├── roomStore.ts
-│   │   ├── uiStore.ts
-│   │   └── userStore.ts
+│   ├── stores/
+│   │   ├── presenceStore.ts         # Friends' live status
+│   │   ├── uiStore.ts               # UI state
+│   │   └── userStore.ts             # Current user & character
 │   │
 │   ├── lib/
-│   │   ├── rough.ts
-│   │   ├── roomId.ts
-│   │   ├── youtube.ts
-│   │   └── constants.ts
+│   │   ├── rough.ts                 # Rough.js helpers
+│   │   ├── xp.ts                    # XP calculation & leveling
+│   │   ├── spotify.ts               # Spotify API helpers
+│   │   ├── supabase.ts              # Supabase client
+│   │   └── constants.ts             # Classes, achievements, etc.
 │   │
 │   └── types/
-│       ├── room.ts
-│       ├── timer.ts
-│       ├── music.ts
+│       ├── character.ts
+│       ├── presence.ts
+│       ├── poke.ts
 │       └── messages.ts
 │
 └── README.md
@@ -169,42 +268,50 @@ study/
 
 ## Implementation Phases
 
-### Phase 1: Foundation
-- Next.js + TypeScript + Tailwind setup
-- PartyKit project setup
-- Sketchy component library (Rough.js wrappers)
-- Landing page with "Create Room" / "Join Room"
-- Room page with real-time presence (join via link, see who's connected)
+### Phase 1: Auth & Character Creator
+- Next.js + TypeScript + Tailwind + Supabase setup
+- Auth with NextAuth (Google/Discord OAuth)
+- Character creator page: pick class, name, doodle avatar
+- Character card component with Rough.js borders
+- Stats display, XP bar
+- Sketchy UI component library
 
-### Phase 2: Pomodoro Timer
-- Server-side timer state machine (idle → working → break → long break)
-- Synced countdown broadcast to all clients
-- Rough.js circular progress ring
-- Configurable durations
-- Focus/break mode UI transitions
+### Phase 2: Friends & Presence
+- PartyKit presence server (track who's online)
+- Friend system: add by username, accept/reject requests
+- Friends list with online/offline/studying status
+- Activity feed: see what friends are doing
+- Custom status setting
 
-### Phase 3: Music Queue
-- Add tracks via YouTube URL
-- Shared queue with upvote/downvote reordering
-- YouTube IFrame embed with leader-based playback sync
-- Skip vote (majority required)
-- Now-playing display with sketchy album-art frame
+### Phase 3: Poke System
+- Poke types with doodle animations (nudge, wave, paper airplane, coffee, eraser)
+- Poke notifications (in-app toast with animation)
+- Poke back in one tap
+- Poke streak counter between friends
 
-### Phase 4: Chat, Reactions & Ambient Sounds
-- Text chat sidebar with speech-bubble style
-- Floating doodle reactions (Framer Motion)
-- Ambient sound mixer with Howler.js (rain, coffee shop, fireplace, library)
-- Auto-status during focus mode
+### Phase 4: Music & Activity Sharing
+- Spotify integration (show now-playing on profile)
+- Manual "working on" status
+- Sketchy music player widget on profiles
+- "Listen along" — open same song
+- Activity broadcasts via PartyKit
 
-### Phase 5: Stats, Themes & Polish
-- Focus stats (pomodoros completed, total time) stored in localStorage
-- Room themes (Notebook, Graph Paper, Chalkboard, Sticky Notes)
-- Shared to-do list
-- Responsive design, loading states, error handling, reconnection UI
+### Phase 5: Study Tools & XP
+- Personal Pomodoro timer with XP rewards
+- Task list with XP on completion
+- Study log tracking (daily focus time)
+- Streak system with flame counter
+- Level-up notifications & achievements
 
-### Phase 6: Deploy
-- Vercel (Next.js) + PartyKit (Cloudflare edge)
-- Cross-browser testing
+### Phase 6: Polish & Social
+- Reactions on friends' activities
+- Achievements feed
+- Study groups
+- Weekly leaderboard
+- Profile themes
+- Daily quests
+- Pet companion system
+- Responsive mobile design
 
 ---
 
@@ -217,4 +324,6 @@ study/
 - **Doodle icons** instead of standard icon libraries
 - **Handwriting fonts** (Caveat, Patrick Hand, Schoolbell)
 - **Dark mode = "Chalkboard mode"** (chalk-white on dark green)
-- **Loading states** as animated doodles (spinning pencil, bouncing eraser)
+- **RPG elements** drawn in a sketch/doodle style — no pixel art, keep it hand-drawn
+- **Poke animations** — bouncy, playful, paper-craft feel
+- **Character cards** look like hand-drawn trading cards with rough borders
