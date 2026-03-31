@@ -4,9 +4,10 @@ import { useRef, useEffect } from "react";
 import { CharacterConfig } from "@/types/character";
 import { renderCharacter, CHAR_WIDTH, CHAR_HEIGHT } from "@/lib/pixelRenderer";
 
-const SCALE = 6;
-const CANVAS_W = CHAR_WIDTH * SCALE;
-const CANVAS_H = CHAR_HEIGHT * SCALE;
+const SCALE = 5;
+const PAD = 2; // padding pixels around character for accessories that extend beyond
+const CANVAS_W = (CHAR_WIDTH + PAD * 2) * SCALE;
+const CANVAS_H = (CHAR_HEIGHT + PAD * 2) * SCALE;
 
 export default function CharacterPreview({
   config,
@@ -22,7 +23,7 @@ export default function CharacterPreview({
     if (!ctx) return;
 
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-    renderCharacter(ctx, config, SCALE);
+    renderCharacter(ctx, config, SCALE, PAD * SCALE, PAD * SCALE);
   }, [config]);
 
   return (

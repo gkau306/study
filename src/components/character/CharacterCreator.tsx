@@ -20,6 +20,7 @@ const TABS = [
   { id: "hair", label: "Hair" },
   { id: "face", label: "Face" },
   { id: "outfit", label: "Outfit" },
+  { id: "extras", label: "Extras" },
 ] as const;
 
 type Tab = (typeof TABS)[number]["id"];
@@ -186,20 +187,21 @@ export default function CharacterCreator() {
             )}
 
             {activeTab === "face" && (
-              <>
-                <StylePicker
-                  label="Eyes"
-                  options={EYE_STYLES}
-                  selected={config.eyeStyle}
-                  onSelect={(id) => update({ eyeStyle: id })}
-                />
-                <StylePicker
-                  label="Accessory"
-                  options={ACCESSORIES}
-                  selected={config.accessory}
-                  onSelect={(id) => update({ accessory: id })}
-                />
-              </>
+              <StylePicker
+                label="Eyes"
+                options={EYE_STYLES}
+                selected={config.eyeStyle}
+                onSelect={(id) => update({ eyeStyle: id })}
+              />
+            )}
+
+            {activeTab === "extras" && (
+              <StylePicker
+                label="Accessory"
+                options={ACCESSORIES}
+                selected={config.accessory}
+                onSelect={(id) => update({ accessory: id })}
+              />
             )}
 
             {activeTab === "outfit" && (
