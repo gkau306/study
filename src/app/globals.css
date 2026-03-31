@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "PressStart2P";
+  src: url("https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --bg-dark: #1a1a2e;
+  --bg-panel: #16213e;
+  --bg-card: #0f3460;
+  --accent: #e94560;
+  --accent-soft: #533483;
+  --text: #eee;
+  --text-muted: #888;
+  --pixel-border: #e94560;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text);
+  font-family: "PressStart2P", monospace;
+  margin: 0;
+}
+
+/* Pixel-perfect rendering for canvases */
+canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
